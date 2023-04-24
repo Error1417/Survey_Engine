@@ -1,0 +1,15 @@
+Question 1: How are you today?
+  1. good
+  2. bad
+  3. ok
+  4. alright
+Question 2: What is your favorite color?
+  1. red
+  2. blue
+  3. green
+  4. no its not
+Question 3: How old are you?
+  1. 18
+  2. 65
+  3. 34
+  4. 23
