@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Survey Application</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+      }
+      .container {
+        width: 80%;
+        margin: auto;
+        overflow: hidden;
+      }
+      .main {
+        padding: 20px;
+        text-align: center;
+      }
+      h1 {
+        color: #333;
+      }
+      p {
+        color: #666;
+      }
+      #choice {
+        margin: 20px 0;
+        padding: 10px;
+        width: 20%;
+      }
+      button {
+        padding: 10px 20px;
+        background-color: #333;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #666;
+      }
+    </style>
+    <script>
+      function runSurveyCreator() {
+        window.location.href = "surveyMaker.html";
+      }
+
+      function takeSurvey() {
+        window.location.href = "surveyTaker.html";
+      }
+
+      function onSubmit() {
+        const choice = document.getElementById("choice").value;
+
+        if (choice !== "1" && choice !== "2") {
+          alert("Invalid input. Please enter 1 to create a new survey or 2 to take an existing survey.");
+        } else {
+          if (choice === "1") {
+            runSurveyCreator();
+          } else {
+            takeSurvey();
+          }
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="main">
+        <h1>Survey Engine</h1>
+        <p>Welcome to the survey application!</p>
+        <p>1. Create a new survey</p>
+        <p>2. Take an existing survey</p>
+        <input type="text" id="choice" placeholder="(1 or 2)" />
+        <button onclick="onSubmit()">Submit</button>
+      </div>
+    </div>
+  </body>
+</html>
+
+
+
