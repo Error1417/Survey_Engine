@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Survey Maker</title>
+    <script>
+        class Survey {
+            constructor(name, numQuestions) {
+                this.name = name;
+                this.questions = new Array(numQuestions);
+            }
+
+            setQuestion(index, question, numChoices) {
+                this.questions[index] = { questionText: question, answerChoices: new Array(numChoices) };
+            }
+
+            setAnswerChoice(questionIndex, choiceIndex, answerChoice) {
+                this.questions[questionIndex].answerChoices[choiceIndex] = answerChoice;
+            }
+        }
+
+        function createSurvey() {
+            const surveyName = document.getElementById("surveyName").value;
+            const numQuestions = parseInt(document.getElementById("numQuestions").value);
+            const numChoices = parseInt(document.getElementById("numChoices").value);
+
+            const survey = new Survey(surveyName, numQuestions);
+
+            for (let i = 0; i < numQuestions; ++i) {
+                const question = prompt(`Enter question ${i + 1}: `);
+                survey.setQuestion(i, question, numChoices);
+
+                for (let j = 0; j < numChoices; ++j) {
+                    const choice = prompt(`Enter answer choice ${j + 1} for question ${i + 1}: `);
+                    survey.setAnswerChoice(i, j, choice);
+                }
+            }
+
+            saveSurveyToLocalStorage(survey);
+        }
+
+        function saveSurveyToLocalStorage(survey) {
+            const savedSurveys = JSON.parse(localStorage.getItem("surveys") || "[]");
+            savedSurveys.push(survey);
+            localStorage.setItem("surveys", JSON.stringify(savedSurveys));
+        }
+
+        function showSavedSurveys() {
+            const savedSurveys = JSON.parse(localStorage.getItem("surveys") || "[]");
+            const surveyList = document.getElementById("surveyList");
+            surveyList.innerHTML = "";
+
+            savedSurveys.forEach((survey, index) => {
+                const listItem = document.createElement("li");
+                listItem.textContent = `Survey ${index + 1}: ${survey.name}`;
+                surveyList.appendChild(listItem);
+            });
+        }
+
+    </script>
+</head>
+<body>
+    <h1>Survey Maker</h1>
+    <h2>Create a new survey</h2>
+    <label for="surveyName">Survey name: </label>
+    <input type="text" id="surveyName" /><br />
+    <label for="numQuestions">Number of questions: </label>
+    <input type="number" id="numQuestions" /><br />
+    <label for="numChoices">Number of answer choices per question: </label>
+    <input type="number" id="numChoices" /><br />
+    <button onclick="createSurvey()">Create Survey</button>
+
+    <h2>Available surveys</h2>
+    <button onclick="showSavedSurveys()">Show surveys</button>
+    <ul id="surveyList"></ul>
+</body>
+</html>

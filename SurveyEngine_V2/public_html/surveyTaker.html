@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Survey Taker</title>
+    <script>
+        let currentSurvey;
+        let results;
+
+        window.onload = function () {
+            const surveys = JSON.parse(localStorage.getItem('surveys') || "[]");
+            const surveyList = document.getElementById('surveyList');
+
+            surveys.forEach((survey, index) => {
+                const listItem = document.createElement('li');
+                const link = document.createElement('a');
+
+                link.textContent = `Survey ${index + 1}: ${survey.name}`;
+                link.href = '#';
+                link.onclick = function() {
+                    currentSurvey = survey;
+                    loadSurvey();
+                };
+
+                listItem.appendChild(link);
+                surveyList.appendChild(listItem);
+            });
+
+            results = JSON.parse(localStorage.getItem('results') || "{}");
+        };
+
+        function loadSurvey() {
+            const surveyDiv = document.getElementById('survey');
+            surveyDiv.innerHTML = '';
+
+            if (!results[currentSurvey.name]) {
+                results[currentSurvey.name] = currentSurvey.questions.map(question => ({
+                    questionText: question.questionText,
+                    answerChoices: question.answerChoices.map(() => 0)
+                }));
+            }
+
+            currentSurvey.questions.forEach((question, questionIndex) => {
+                const questionP = document.createElement('p');
+                questionP.textContent = question.questionText;
+                surveyDiv.appendChild(questionP);
+
+                question.answerChoices.forEach((choice, choiceIndex) => {
+                    const choiceInput = document.createElement('input');
+                    const choiceLabel = document.createElement('label');
+
+                    choiceInput.type = 'radio';
+                    choiceInput.name = `question${questionIndex}`;
+                    choiceInput.onclick = function() {
+                        results[currentSurvey.name][questionIndex].answerChoices[choiceIndex]++;
+                        localStorage.setItem('results', JSON.stringify(results));
+                    };
+
+                    choiceLabel.textContent = choice;
+                    choiceLabel.appendChild(choiceInput);
+                    surveyDiv.appendChild(choiceLabel);
+                    surveyDiv.appendChild(document.createElement('br'));
+                });
+
+                surveyDiv.appendChild(document.createElement('hr'));
+            });
+
+            const submitButton = document.createElement('button');
+            submitButton.textContent = 'Submit Survey';
+            submitButton.onclick = function() {
+                alert('Thank you for taking the survey!');
+            };
+            surveyDiv.appendChild(submitButton);
+        }
+    </script>
+</head>
+<body>
+    <h1>Survey Taker</h1>
+
+    <h2>Select a survey:</h2>
+    <ul id="surveyList"></ul>
+
+    <h2>Survey:</h2>
+    <div id="survey"></div>
+</body>
+</html>

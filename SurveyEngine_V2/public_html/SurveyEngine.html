@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Survey Application</title>
+    <script>
+      function runSurveyCreator() {
+        window.location.href = "surveyMaker.html";
+      }
+
+      function takeSurvey() {
+         window.location.href = "surveyTaker.html";
+      }
+
+      function onSubmit() {
+        const choice = document.getElementById("choice").value;
+
+        if (choice !== "1" && choice !== "2") {
+          alert("Invalid input. Please enter 1 to create a new survey or 2 to take an existing survey.");
+        } else {
+          if (choice === "1") {
+            runSurveyCreator();
+          } else {
+            takeSurvey();
+          }
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Survey Engine</h1>
+    <p>Welcome to the survey application!</p>
+    <p>1. Create a new survey</p>
+    <p>2. Take an existing survey</p>
+    <label for="choice">Enter your choice (1 or 2): </label>
+    <input type="text" id="choice" />
+    <button onclick="onSubmit()">Submit</button>
+  </body>
+</html>
+
+
